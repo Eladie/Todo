@@ -10,7 +10,7 @@ const TodoItem = (props) => {
     const newArr = props.addNewTodo.map((item) => {
       if( item.id === id) {
         return {
-          ...item,
+          ...item, 
           completed:false,
         }
       }
