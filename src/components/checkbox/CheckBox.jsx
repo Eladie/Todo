@@ -4,9 +4,11 @@ import "./Checkbox.css";
 
 const Checkbox = (props) => {
   const [checked, setChecked] = useState(!!props.checked);
+  
 
   const handleCheckboxChange = (e) => {
     setChecked(e.target.checked);
+    
   };
 
   useEffect(() => {

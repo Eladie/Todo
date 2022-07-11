@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "./components/card/Card";
-import Input from "./components/input/Input";
+import Input from "./components/create-todo/input/Input";
 import TodoItem from "./components/todo-item/TodoItem";
-import TextArea from "./components/input/TextArea";
+import TextArea from "./components/create-todo/input/TextArea";
 import Button from "./components/button/Button";
+import CreateTodoCard from "./components/create-todo/CreateTodoCard";
 import "./App.css";
+import Modal from "./components/modal/Modal";
 
 const TODOS_MOCK = [
   {
@@ -34,42 +36,73 @@ const TODOS_MOCK = [
   },
 ];
 
-function App() {
+function App(props) {
+
+  const [todoList, setTodoList] = useState(TODOS_MOCK)
+  const [isOpen, setIsOpen] =useState(false)
+
+  const newTodoItem = (newTodo) => {
+    setTodoList((prevState) => [
+      ...prevState, 
+      {...newTodo,
+        id: prevState.length+1,
+      },
+    ])
+  }
+
+  const openModal = () => {
+    setIsOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+
   return (
     <div className="App">
       <div className="app-container">
-        {/* 
-            This is your Create Card component.
-          */}
-        <Card>
-          <h2>Create Todo</h2>
-          <form>
-            <Input onChange={() => {}} placeholder="Title" type="text" />
-            <TextArea onChange={() => {}} placeholder="Description" />
-            <Button type="submit">Create</Button>
-          </form>
-        </Card>
+       {/* <CreateTodoCard onCreateClick={openModal} addNewTodo={newTodoItem}/> */}
 
         {/* 
           My Todos
         */}
         <Card>
           <h1>My todos</h1>
-          <Button onClick={() => console.log("Open Modal")}>Add +</Button>
+          <Button onClick={openModal}>Add +</Button>
           <div className="list-container">
-            <TodoItem completed={false} />
-            <TodoItem completed={false} />
+            {
+              todoList.filter((item) => item.completed === false)
+              .map((item) => (
+                <TodoItem 
+                key={item.id}
+                title={item.title}
+                description={item.description}
+                completed={item.completed}/>
+                ))
+              }
+            {/* <TodoItem todoList={TODOS_MOCK} completed={true} /> */}
           </div>
 
           <div className="separator"></div>
 
           <h2>Completed</h2>
           <div className="list-container">
-            <TodoItem completed={true} />
-            <TodoItem completed={true} />
+          {
+              todoList.filter((item) => item.completed === true)
+              .map((item) => (
+                <TodoItem 
+                key={item.id}
+                title={item.title}
+                description={item.description}
+                completed={item.completed}/>
+                ))
+              }
           </div>
         </Card>
       </div>
+      <Modal onClose={closeModal} isOpen={isOpen}>
+          <CreateTodoCard addNewTodo={newTodoItem}/>  
+      </Modal>
     </div>
   );
 }

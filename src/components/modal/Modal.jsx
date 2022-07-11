@@ -24,7 +24,6 @@ const Modal = (props) => {
         className="close-icon fa fa-times-circle-o"
         aria-hidden="true"
       ></i>
-
       <div className="modal-content">{props.children}</div>
     </div>
   );
