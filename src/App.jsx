@@ -37,32 +37,41 @@ const TODOS_MOCK = [
 ];
 
 function App(props) {
-
-  const [todoList, setTodoList] = useState(TODOS_MOCK)
-  const [isOpen, setIsOpen] =useState(false)
+  const [todoList, setTodoList] = useState(TODOS_MOCK);
+  const [isOpen, setIsOpen] = useState(false);
 
   const newTodoItem = (newTodo) => {
     setTodoList((prevState) => [
-      ...prevState, 
-      {...newTodo,
-        id: prevState.length+1,
-      },
-    ])
-  }
+      ...prevState,
+      { ...newTodo, id: prevState.length + 1 },
+    ]);
+  };
 
   const openModal = () => {
-    setIsOpen(true)
-  }
+    setIsOpen(true);
+  };
 
   const closeModal = () => {
-    setIsOpen(false)
-  }
+    setIsOpen(false);
+  };
+
+  const onCheck = (value, id) => {
+    setTodoList((prevState) =>
+      prevState.map((item) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            completed: value,
+          };
+        }
+        return item;
+      })
+    );
+  };
 
   return (
     <div className="App">
       <div className="app-container">
-       {/* <CreateTodoCard onCreateClick={openModal} addNewTodo={newTodoItem}/> */}
-
         {/* 
           My Todos
         */}
@@ -70,38 +79,27 @@ function App(props) {
           <h1>My todos</h1>
           <Button onClick={openModal}>Add +</Button>
           <div className="list-container">
-            {
-              todoList.filter((item) => item.completed === false)
+            {todoList
+              .filter((item) => item.completed === false)
               .map((item) => (
-                <TodoItem 
-                key={item.id}
-                title={item.title}
-                description={item.description}
-                completed={item.completed}/>
-                ))
-              }
-            {/* <TodoItem todoList={TODOS_MOCK} completed={true} /> */}
+                <TodoItem key={item.id} data={item} onCheck={onCheck} />
+              ))}
           </div>
 
           <div className="separator"></div>
 
           <h2>Completed</h2>
           <div className="list-container">
-          {
-              todoList.filter((item) => item.completed === true)
+            {todoList
+              .filter((item) => item.completed === true)
               .map((item) => (
-                <TodoItem 
-                key={item.id}
-                title={item.title}
-                description={item.description}
-                completed={item.completed}/>
-                ))
-              }
+                <TodoItem key={item.id} data={item} onCheck={onCheck} />
+              ))}
           </div>
         </Card>
       </div>
       <Modal onClose={closeModal} isOpen={isOpen}>
-          <CreateTodoCard addNewTodo={newTodoItem}/>  
+        <CreateTodoCard addNewTodo={newTodoItem} />
       </Modal>
     </div>
   );

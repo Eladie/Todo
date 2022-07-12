@@ -4,16 +4,15 @@ import Card from "../card/Card";
 import TextArea from "./input/TextArea";
 import Button from "../button/Button";
 
+const emptyformat = {
+  title: "",
+  description: "",
+  completed: false,
+};
+
 function CreateTodoCard(props) {
-  
-  const emptyformat = {
-    title: "",
-    description: "",
-    completed: false,
-  }
-  
   const [newTodo, setNewTodo] = useState(emptyformat);
-  
+
   const handleChange = (event) => {
     setNewTodo((prevState) => ({
       ...prevState,
@@ -22,20 +21,18 @@ function CreateTodoCard(props) {
   };
 
   const handleOnSubmit = (event) => {
-    event.preventDefault()
-    props.addNewTodo(newTodo)
-    setNewTodo(emptyformat)
-    console.log(newTodo)
+    event.preventDefault();
+    props.addNewTodo(newTodo);
+    setNewTodo(emptyformat);
+    console.log(newTodo);
   };
-
-  
 
   return (
     <Card>
       <h2>Create Todo</h2>
       <form onSubmit={handleOnSubmit}>
         <Input
-          value ={newTodo.title}
+          value={newTodo.title}
           name="title"
           onChange={handleChange}
           placeholder="Title"
@@ -43,7 +40,7 @@ function CreateTodoCard(props) {
         />
         <TextArea
           required
-          value ={newTodo.description}
+          value={newTodo.description}
           name="description"
           onChange={handleChange}
           placeholder="Description"
