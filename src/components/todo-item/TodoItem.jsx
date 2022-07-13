@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 import "./TodoItem.css";
 import Checkbox from "../checkbox/CheckBox";
+import { useEffect } from "react";
 
 const TodoItem = (props) => {
   const { id, title, description, completed } = props.data;
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleCheckboxChange = (value) => {
     props.onCheck(value, id);
   };
+
+  const handleClickdelete = () => {
+    props.onClick(id)
+  }
+
+  const openModal = () => {
+    setIsOpen(true);
+  }
+
 
   return (
     <div className={`todo-item ${completed && "todo-completed"}`}>
@@ -18,8 +29,8 @@ const TodoItem = (props) => {
         </div>
 
         <div>
-          <i className="fa fa-pencil" aria-hidden="true"></i>
-          <i className="fa fa-trash" aria-hidden="true"></i>
+          <i onClick={openModal} className="fa fa-pencil" aria-hidden="true"></i>
+          <i onClick={handleClickdelete} className="fa fa-trash" aria-hidden="true"></i>
         </div>
       </div>
       <div className="separator"></div>

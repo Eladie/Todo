@@ -69,6 +69,12 @@ function App(props) {
     );
   };
 
+  const handleOnClick = (id) => {
+    if(window.confirm("Are you sure you want to delete this task?")){
+    setTodoList(todoList.filter(item => item.id !== id))
+    }
+  }
+
   return (
     <div className="App">
       <div className="app-container">
@@ -82,7 +88,7 @@ function App(props) {
             {todoList
               .filter((item) => item.completed === false)
               .map((item) => (
-                <TodoItem key={item.id} data={item} onCheck={onCheck} />
+                <TodoItem key={item.id} data={item} onCheck={onCheck} onClick = {handleOnClick} />
               ))}
           </div>
 
@@ -93,7 +99,7 @@ function App(props) {
             {todoList
               .filter((item) => item.completed === true)
               .map((item) => (
-                <TodoItem key={item.id} data={item} onCheck={onCheck} />
+                <TodoItem key={item.id} data={item} onCheck={onCheck} onClick = {handleOnClick}/>
               ))}
           </div>
         </Card>
