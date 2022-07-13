@@ -15,7 +15,7 @@ const TodoItem = (props) => {
     props.onClick(id)
   }
 
-  const openModal = () => {
+  const openModal = ( ) => {
     setIsOpen(true);
   }
 
